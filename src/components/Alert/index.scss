@@ -1,0 +1,33 @@
+.alert {
+  width: 400px;
+  border-radius: $btn-border-radius;
+  padding: $btn-padding-y-lg $btn-padding-x-lg;
+  background-color: $blue;
+  color: $white;
+  .alert-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: $font-weight-bold;
+
+    .alert-header-right {
+      cursor: pointer;
+    }
+  }
+
+  .alert-description {
+    padding: $btn-padding-y 0;
+  }
+
+  &.alert-success {
+    background-color: $success;
+  }
+
+  &.alert-danger {
+    background-color: $danger;
+  }
+
+  &.alert-warning {
+    background-color: $warning;
+  }
+}

@@ -1,0 +1,38 @@
+.tabs {
+  padding: $padding-y $padding-x;
+
+  .tabs-items {
+    list-style: none;
+    padding-inline-start: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: $menu-item-active-border-width solid $border-color;
+
+    .tab-item {
+      padding: $menu-item-padding-y $menu-item-padding-x;
+      cursor: pointer;
+      box-shadow: $menu-box-shadow;
+
+      &:hover,
+      &:focus {
+        color: $menu-item-active-color;
+        border-bottom: $menu-item-active-border-width solid
+          $menu-item-active-color;
+        text-decoration: none;
+      }
+
+      &.tab-item-active {
+        color: $menu-item-active-color;
+        border-bottom: $menu-item-active-border-width solid
+          $menu-item-active-color;
+        text-decoration: none;
+      }
+
+      &.tab-item-disabled {
+        pointer-events: none;
+        color: $menu-item-disabled-color;
+      }
+    }
+  }
+}
