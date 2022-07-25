@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Input from "./components/Input";
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import Simple from "./test-components/Simple"
+import Skeleton  from "./components/Skeleton";
+
+library.add(fas);
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/*<hr />*/}
+      {/*<Input prefix={"123124"} suffix="1231231" />*/}
+      {/*<Input*/}
+      {/*  prefix={"123124"}*/}
+      {/*  suffix="1231231"*/}
+      {/*  size="large"*/}
+      {/*  placeholder="请输入内容....."*/}
+      {/*/>*/}
+        <Simple />
     </div>
   );
 }
