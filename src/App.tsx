@@ -10,7 +10,7 @@ library.add(fas);
 
 function App() {
   return (
-    <div className="App">
+    <div >
       {/*<hr />*/}
       {/*<Input prefix={"123124"} suffix="1231231" />*/}
       {/*<Input*/}

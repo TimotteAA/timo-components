@@ -10,7 +10,7 @@ const Simple: React.FC = () => {
     useEffect(() => {
         setTimeout(() => {
             setIsVisible(false);
-        }, 15000)
+        }, 5000)
     }, [])
 
     return (
