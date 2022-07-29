@@ -1,14 +1,31 @@
 .alert {
-  width: 400px;
+  width: 300px;
   border-radius: $btn-border-radius;
-  padding: $btn-padding-y-lg $btn-padding-x-lg;
-  background-color: $blue;
-  color: $white;
+  padding: $btn-padding-y $btn-padding-x;
+  color: white;
+
+  &.alert-warning {
+    background-color: $warning;
+  }
+
+  &.alert-default {
+    background-color: $primary;
+  }
+
+  &.alert-danger {
+    background-color: $danger;
+  }
+
+  &.alert-success {
+    background-color: $success;
+  }
+
   .alert-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: $font-weight-bold;
+    font-size: $btn-font-size-lg;
+    font-weight: $btn-font-weight;
 
     .alert-header-right {
       cursor: pointer;
@@ -16,18 +33,7 @@
   }
 
   .alert-description {
-    padding: $btn-padding-y 0;
-  }
-
-  &.alert-success {
-    background-color: $success;
-  }
-
-  &.alert-danger {
-    background-color: $danger;
-  }
-
-  &.alert-warning {
-    background-color: $warning;
+    font-size: $btn-font-size;
+    font-weight: $btn-font-weight;
   }
 }

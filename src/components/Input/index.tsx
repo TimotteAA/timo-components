@@ -6,11 +6,17 @@ import Icon from "../Icon";
 type InputSize = "small" | "large";
 
 interface InputProps {
+  /* disabled，input是否被禁用 */
   disabled?: boolean;
+  /* size，input的大小 */
   size?: InputSize;
+  /* icon，input的icon */
   icon?: IconProp;
-  prefix?: string | React.ReactElement;
-  suffix?: string | React.ReactElement;
+  /* prefix，input的搜索前缀，比如https//、http// */
+  prefix?: React.ReactNode;
+  /* prefix，input的搜索后缀，比如.com、.cn */
+  suffix?: React.ReactNode;
+  /* className，自定义类名 */
   className?: string;
 }
 
@@ -20,7 +26,7 @@ export type FInputProps = InputProps & Partial<Omit<NativeInputProps, "size">>;
 
 const Input: React.FC<FInputProps> = (props) => {
   const {
-    disabled,
+    disabled = false,
     size = "small",
     icon,
     prefix,
@@ -30,7 +36,7 @@ const Input: React.FC<FInputProps> = (props) => {
   } = props;
 
   //   后面两个主要是决定input的前后margin
-  const classes = classNames("input", {
+  const classes = classNames("input-wrapper", {
     [`input-${size}`]: size,
     [`input-disabled`]: disabled,
     [`input-prefix`]: prefix,
@@ -39,17 +45,35 @@ const Input: React.FC<FInputProps> = (props) => {
     "input-small": size === "small",
   });
 
+  const prefixClasses = classNames("input-prefix-wrapper", {
+    [`input-prefix-wrapper-${size}`]: size,
+  })
+
+  const suffixClasses = classNames("input-suffix-wrapper", {
+    [`input-suffix-wrapper-${size}`]: size,
+  })
+
+  const fixControlledValue = (value: any) => {
+    if (typeof value === 'undefined' || value === null) {
+      return ''
+    }
+    return value
+  }
+  if('value' in props) {
+    delete restProps.defaultValue
+    restProps.value = fixControlledValue(props.value)
+  }
+
   return (
     <div className="input-container">
-      {prefix && <div className="input-prefix-wrapper">{prefix}</div>}
-      <div className="input-wrapper">
+      {prefix && <div className={prefixClasses}>{prefix}</div>}
+      <div className={classes} >
         {icon && (
-          <div className="input-icon-wrapper">{<Icon icon={icon} />}</div>
+          <span className="input-icon"><Icon icon={icon} /></span>
         )}
-        <input {...restProps} className={classes} disabled={disabled} />
+        <input {...restProps} disabled={disabled} className={"input"}/>
       </div>
-
-      {suffix && <div className="input-suffix-wrapper">{suffix}</div>}
+      {suffix && <div className={suffixClasses}>{suffix}</div>}
     </div>
   );
 };

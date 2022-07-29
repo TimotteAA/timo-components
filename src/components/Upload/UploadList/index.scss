@@ -1,0 +1,50 @@
+ul {
+  list-style: none;
+}
+
+.upload-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+
+
+  .upload-list-item {
+    width: 300px;
+    padding: 10px 20px;
+    border-bottom: 1px solid black;
+
+    .item-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .upload-success {
+        color: rgb(32, 252, 36);
+      }
+
+      .upload-error {
+        color: red;
+      }
+
+      .upload-uploading {
+        color: blueviolet;
+      }
+
+      .remove {
+        display: none;
+      }
+
+      .upload-list-item:hover .remove {
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      .upload-list-item-name {
+        width: 60px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

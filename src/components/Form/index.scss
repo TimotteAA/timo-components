@@ -1,0 +1,68 @@
+.timo-form {
+  padding: 20px;
+
+  .timo-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    //justify-content: center;
+
+    &:not(:last-of-type) {
+      margin-bottom: 20px;
+    }
+
+    &.timo-row-without-label {
+      flex-direction: row-reverse;
+    }
+
+    &.timo-row-has-error {
+      .input-wrapper {
+        border: 3px solid $danger;
+      }
+      .input-container {
+        border-color: transparent;
+      }
+    }
+
+
+
+    .timo-row-label {
+      flex-basis: 30%;
+      text-align: right;
+
+      label {
+        margin-right: 7px;
+      }
+      label.label-required::before {
+        content: "*";
+        margin-right: 5px;
+        color: $danger;
+        font-size: 14px;
+        line-height: 10px;
+      }
+    }
+
+    .timo-row-form-item {
+      flex-basis: 70%;
+
+      .input-error {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%);
+        color: red;
+        display: none;
+        font-size: 8px;
+        width: 300px;
+        overflow: hidden;
+        white-space: nowrap;
+        //text-overflow: ellipsis;
+        text-align: center;
+
+        &.input-validated-error {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

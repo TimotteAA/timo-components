@@ -1,0 +1,30 @@
+.auto-complete {
+  position: relative;
+
+  .item-wrapper {
+    position: absolute;
+    overflow: auto;
+    list-style: none;
+    height: fit-content;
+    padding-inline-start: 0px;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    top: 100%;
+    background-color: $white;
+    border: 1px solid $gray-200;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    .item {
+      padding: $input-padding-y $input-padding-x;
+      cursor: pointer;
+
+      &:hover, &.item-highlighted {
+        background-color: rgba(0, 0, 255, 0.3);
+        color: white;
+      }
+    }
+  }
+}
