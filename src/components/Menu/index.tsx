@@ -1,6 +1,7 @@
 import React, { useState, createContext } from "react";
 import classNames from "classnames";
-import { MenuItemProps } from "./MenuItem";
+import MenuItem, { MenuItemProps } from "./MenuItem";
+import SubMenu, { SubMenuProps } from "./SubMenu";
 
 type Mode = "horizontal" | "vertical";
 
@@ -90,4 +91,12 @@ const Menu: React.FC<MenuProps> = (props) => {
   );
 };
 
-export default Menu;
+export type TransMenu = React.FC<MenuProps> & {
+  MenuItem: React.FC<MenuItemProps>,
+  SubMenu: React.FC<SubMenuProps>
+}
+
+const MenuComponent = Menu as TransMenu;
+MenuComponent.SubMenu = SubMenu;
+MenuComponent.MenuItem = MenuItem;
+export default MenuComponent;

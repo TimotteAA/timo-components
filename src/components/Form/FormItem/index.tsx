@@ -49,7 +49,7 @@ const FormItem: React.FC<FormItemProps> = (props) => {
     // errors
     const hasError = fieldState && fieldState.errors && fieldState.errors.length > 0;
     const errors = fieldState && fieldState.errors;
-    console.log(errors);
+
     // rules中是否有必填
     const isRequired = rules && rules.length > 0 && rules.some(r => typeof r !== "function" && r.required);
 
@@ -71,11 +71,7 @@ const FormItem: React.FC<FormItemProps> = (props) => {
     // 更新值的回调
     const onValueUpdateChange = (e: any) => {
         const value = getValueFromEvent && getValueFromEvent(e);
-        console.log(value);
-        dispatch({type: "updateField", name,
-        value: {
-            value
-        }})
+        dispatch({type: "updateField", name, value})
     }
 
     const onValueValidate = async () => {

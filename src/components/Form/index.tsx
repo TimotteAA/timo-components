@@ -1,6 +1,8 @@
-import React, {createContext, useContext} from "react";
+import React, {createContext, forwardRef, useImperativeHandle} from "react";
 import { useStore, FormState } from "../../hooks/useStore";
 import { ValidateError } from "async-validator";
+import FormItem, { FormItemProps } from "./FormItem";
+
 
 export type renderChildren = (form: FormState) => React.ReactNode;
 
@@ -23,6 +25,10 @@ export type FormContext = Pick<ReturnType<typeof useStore>, "dispatch" | "fields
 
 export const formContext = createContext<FormContext>({} as FormContext);
 
+export type FormRef = Omit<ReturnType<typeof useStore>,
+    "dispatch" | "fields" | "validateField" | "form"
+    | "setForm" | "validateFields">;
+
 /*
 * 为了统一管理每个表单Item的数据，定义store
 * store: fields，各个input的name以及数据
@@ -31,10 +37,27 @@ export const formContext = createContext<FormContext>({} as FormContext);
 * 当item失去焦点时，对value进行校验
 * 当submit时，判断整体的isValid，并提供验证成功、验证失败的回调
 * */
-const Form: React.FC<FormProps> = (props) => {
+const Form = forwardRef<FormRef, FormProps>((props, ref) => {
     const { name = "timo-form", children,
         initialValue, onValidateSuccess, onValidateError } = props;
-    const { form, fields, dispatch, validateField, validateFields } = useStore();
+    const { form,
+        fields,
+        dispatch,
+        validateField,
+        validateFields,
+        setFieldValue,
+        getFieldValue,
+        getAllFields,
+        resetField} = useStore(initialValue);
+
+    useImperativeHandle(ref, () => {
+        return {
+            setFieldValue,
+            getFieldValue,
+            getAllFields,
+            resetField
+        }
+    })
 
     const passedContext: FormContext = {
         dispatch,
@@ -62,16 +85,19 @@ const Form: React.FC<FormProps> = (props) => {
     }
 
     return <>
-        <ul>
-            <li>{JSON.stringify(form)}</li>
-            <li>{JSON.stringify(fields)}</li>
-        </ul>
         <form name={name} className="timo-form" onSubmit={handleSubmit}>
             <formContext.Provider value={passedContext}>
             {childNode}
             </formContext.Provider>
         </form>
     </>
+});
+
+export type FormComponent = React.FC<FormProps> & {
+    FormItem: React.FC<FormItemProps>
 }
 
-export default Form;
+// @ts-ignore
+const TransForm = Form as FormComponent;
+TransForm.FormItem = FormItem;
+export default TransForm;

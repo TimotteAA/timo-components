@@ -1,9 +1,9 @@
 import React, { useState, createContext } from "react";
 import classNames from "classnames";
 
-import { TabItemProps } from "./TabItem";
+import TabItem, { TabItemProps } from "./TabItem";
 
-interface TabsProps {
+export interface TabsProps {
   /**
    * 当前选中索引
    */
@@ -67,4 +67,9 @@ const Tabs: React.FC<TabsProps> = (props) => {
   );
 };
 
-export default Tabs;
+export type TransTabs = React.FC<TabsProps> & {
+  TabItem: React.FC<TabItemProps>;
+}
+const TabsComponent = Tabs as TransTabs;
+TabsComponent.TabItem = TabItem;
+export default TabsComponent;

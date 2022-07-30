@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import classNames from "classnames";
 
-interface DraggerProps {
+export interface DraggerProps {
   onFile: (files: FileList) => void;
 }
 

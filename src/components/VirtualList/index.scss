@@ -1,0 +1,9 @@
+.virtual-list-container {
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  .virtual-list-item-list {
+    background-color: pink;
+    position: relative;
+  }
+}

@@ -78,7 +78,6 @@ export const Button: React.FC<ButtonProps> = (props) => {
       className={btnClasses}
       disabled={disabled}
       {...restProps}
-      onClick={() => console.log(1234)}
     >
       {children}
     </button>

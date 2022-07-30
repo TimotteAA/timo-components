@@ -1,6 +1,6 @@
 import React from "react";
 
-interface ProgressProps {
+export interface ProgressProps {
   height?: number;
   width?: number;
   percent?: number;

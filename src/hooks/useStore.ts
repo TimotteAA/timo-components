@@ -50,7 +50,7 @@ function fieldsReducer(state: Fields, action: FieldsAction): Fields {
         case "updateField": {
             return {
                 ...state,
-                [action.name]: { ...state[action.name], ...action.value }
+                [action.name]: { ...state[action.name], value: action.value }
             }
         }
         case "updateValidateResult": {
@@ -65,13 +65,38 @@ function fieldsReducer(state: Fields, action: FieldsAction): Fields {
     }
 }
 
-export function useStore() {
+export function useStore(initialValue?: Record<string, any>) {
     // form的整个state
     const [form, setForm] = useState<FormState>({isValid: true, isSubmitting: false, errors: {}});
     const [fields, dispatch] = useReducer(fieldsReducer, {});
     const getFieldValue = (key: string) => {
         return fields[key] && fields[key].value;
     }
+    // 设置form的值
+    const setFieldValue = (key: string, value: any) => {
+        if (fields && fields[key]) {
+            const oldValue = fields[key].value
+            dispatch({ type: "updateField", name: key, value: { ...oldValue, value }})
+        }
+    }
+    // 获取所有的字段对应的值
+    const getAllFields = () => {
+        return mapValues(fields, item => item.value);
+    }
+    // 设置初始值
+    const resetField = () => {
+        if (initialValue) {
+            console.log(initialValue);
+            // 循环dispatch
+            each(initialValue, (value, name) => {
+                if (fields[name]) {
+                    dispatch({type: "updateField", name,
+                        value })
+                }
+            })
+        }
+    }
+
     const transformRules = (rules: CustomRule[]) => {
         return rules.map(r => {
             if (typeof r === "function") {
@@ -152,6 +177,10 @@ export function useStore() {
         form,
         setForm,
         validateField,
-        validateFields
+        validateFields,
+        setFieldValue,
+        getFieldValue,
+        getAllFields,
+        resetField
     }
 }

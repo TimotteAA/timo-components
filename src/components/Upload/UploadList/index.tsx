@@ -2,7 +2,7 @@ import React from "react";
 import { UploadFile } from "../";
 import Progress from "../Progress";
 
-interface UploadListProps {
+export interface UploadListProps {
   fileList: UploadFile[];
   onRemove: (file: UploadFile) => void;
 }

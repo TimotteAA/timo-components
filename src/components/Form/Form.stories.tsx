@@ -1,5 +1,5 @@
-import React from "react";
-import Form from "./";
+import React, { useRef } from "react";
+import Form, { FormRef } from "./";
 import Item from "./FormItem"
 import Input from "../Input";
 import Button from "../Button";
@@ -35,8 +35,19 @@ const confirmRules: CustomRule[] = [
     })
 ]
 
-const Template: ComponentStory<typeof Form> = (args) => (
-    <Form initialValue={args.initialValue} onValidateSuccess={args.onValidateSuccess} onValidateError={args.onValidateError}>
+const Template: ComponentStory<typeof Form> = (args) => {
+    const ref = useRef<FormRef>();
+    const resetAll = () => {
+        if (ref.current) {
+            ref.current.resetField();
+            console.log("password", ref.current?.getFieldValue("password"));
+        }
+    }
+
+    return (<Form initialValue={args.initialValue}
+                  onValidateSuccess={args.onValidateSuccess}
+                  // @ts-ignore
+                  onValidateError={args.onValidateError} ref={ref}>
         <Item label={"用户名"} name={"username"} rules={[{required: true}]}>
             <Input />
         </Item>
@@ -57,9 +68,10 @@ const Template: ComponentStory<typeof Form> = (args) => (
         </div>
         <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
             <Button size={"small"} type={"submit"}>提交</Button>
+            <Button type={"button"} onClick={resetAll} size={"small"}>重置</Button>
         </div>
     </Form>
-);
+)};
 
 export const FormStory = Template.bind({});
 FormStory.args = {

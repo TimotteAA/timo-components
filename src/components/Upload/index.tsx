@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 // @ts-ignore
 import axios from 'axios';
-import UploadList from './UploadList';
-import Dragger from './Dragger';
-
+import UploadList, {UploadListProps} from './UploadList';
+import Dragger, {DraggerProps} from './Dragger';
+import Progress, {ProgressProps} from "./Progress";
 
 /**
  * @description Upload component
@@ -206,4 +206,14 @@ const Upload: React.FC<UploadProps> = (props) => {
   );
 };
 
-export default Upload;
+export type TransUplod = React.FC<UploadProps> & {
+  Progress: React.FC<ProgressProps>,
+  UploadList: React.FC<UploadListProps>,
+  Dragger: React.FC<DraggerProps>
+}
+
+const UploadComponent = Upload as TransUplod;
+UploadComponent.UploadList = UploadList;
+UploadComponent.Dragger = Dragger;
+UploadComponent.Progress = Progress;
+export default UploadComponent;
