@@ -49,8 +49,8 @@ export interface TreeProps {
 
 export interface TreeContext {
     handleExpandedClicked?: TreeProps['onExpanded'];
-    handleItemSelect?:  (key: string, e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleItemExpand?: (key: string, e: React.MouseEvent<HTMLDivElement>) => void;
+    handleItemSelect?:  (key: string, currentIdx: number, e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleItemExpand?: (key: string, currentIdx: number, e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const treeContext = createContext<TreeContext>({});
@@ -58,7 +58,7 @@ const treeContext = createContext<TreeContext>({});
 
 // key为child，value为parent
 const parentMap = new Map<TreeData, TreeData>();
-const childMap = new Map<TreeData, TreeData[]>();
+const childMap = new Map<number, number[]>();
 const indexMap = new Map<TreeData, number>();
 function flattenTreeData(treeData: TreeData[], parentIdx: number, depth: number,
                          defaultSelectedKeys?: string[],
@@ -82,16 +82,9 @@ function flattenTreeData(treeData: TreeData[], parentIdx: number, depth: number,
         if (n.children && n.children.length > 0) {
             n.hasChildren = true;
             n.showChildren = false;
-            if (!childMap.has(n)) {
-                childMap.set(n, []);
-            }
             for (let c of n.children) {
                 parentMap.set(c, n);
-                const tmp = childMap.get(n);
-                tmp && tmp.push(c);
-                tmp && childMap.set(n, tmp);
             }
-
             const tmpRes = flattenTreeData(n.children, resArr.length, depth + 1);
             resArr.push(...tmpRes);
         } else {
@@ -107,43 +100,97 @@ function flattenTreeData(treeData: TreeData[], parentIdx: number, depth: number,
             if (parent) {
                 resArr[i].parentIdx = indexMap.get(parent);
                 resArr[i].show = parent.showChildren;
+
             }
         }
         resArr[i].currentIdx = i;
     }
 
-    // 处理默认选中
-    if (defaultSelectedKeys && defaultSelectedKeys.length) {
-        const record = new Set(defaultSelectedKeys);
-        for (let i = 0; i < resArr.length; i++) {
-            const key = resArr[i].key;
-            if (record.has(key)) {
-                resArr[i].checked = true;
-            }
-        }
-    }
-
+    // // 处理默认选中
+    // if (defaultSelectedKeys && defaultSelectedKeys.length) {
+    //     const record = new Set(defaultSelectedKeys);
+    //     for (let i = 0; i < resArr.length; i++) {
+    //         const key = resArr[i].key;
+    //         if (record.has(key)) {
+    //             resArr[i].checked = true;
+    //         }
+    //     }
+    // }
+    //
     return resArr;
 }
-
+console.log(childMap);
 // 计算选中项的key，以及其子项
 // 以key为前缀的
 // 找到受影响的所有keys
-const findSelectedItems = (key: string, flattenedData: TreeData[], depth?: number) => {
-    const res: string[] = [];
-    //  被选中的索引
-    const selected: number[] = [];
-    for (let i = 0; i < flattenedData.length; i++) {
-        const data = flattenedData[i];
-        if (depth && data.depth !== depth) continue;
-        if (data.key) {
-            if (data.key.startsWith(key)) {
-                res.push(data.key);
-                selected.push(i);
+type DepthFilter = (depth: number) => boolean;
+// const findExpandedItems = (key: string, flattenedData: TreeData[], depthFilter?: DepthFilter) => {
+//     const res: string[] = [];
+//     //  被选中的索引
+//     const selected: number[] = [];
+//     for (let i = 0; i < flattenedData.length; i++) {
+//         const data = flattenedData[i];
+//         if (depthFilter && depthFilter(data.depth)) continue;
+//
+//         // 以--界定层级
+//
+//
+//         if (data.key) {
+//             if (data.key.startsWith(key)) {
+//                 res.push(data.key);
+//                 selected.push(i);
+//             }
+//         }
+//     }
+//     return [res, selected];
+// }
+
+// 找到链上所有的，被key影响的子代
+const findAffectedItems = (key: string, idx: number, flattenedData: TreeData[]) => {
+    console.log(`key: ${key}, idx: ${idx}`);
+    const keys: string[] = [];
+    const idxs: number[] = [];
+
+    const queue: number[] = [idx];
+
+    while (queue.length) {
+        const curSize = queue.length;
+        for (let i = 0; i < curSize; i++) {
+            const cur = queue.shift();
+            if (cur) {
+                keys.push(flattenedData[cur].key);
+                idxs.push(flattenedData[cur].currentIdx!);
+
+                const child = childMap.get(cur);
+                if (child && child.length) {
+                    for (let c of child) {
+                        queue.push(c);
+                    }
+                }
             }
         }
     }
-    return [res, selected];
+    console.log("emmm,", keys, idxs);
+    return {
+        keys,
+        idxs
+    }
+}
+
+function updateChildMap(data: TreeData[]) {
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].parentIdx) {
+            const parentIdx = data[i].parentIdx!;
+            const childIdx = i;
+            if (childMap.has(parentIdx)) {
+                const tmp = childMap.get(parentIdx)!;
+                tmp.push(childIdx);
+                childMap.set(parentIdx, tmp);
+            } else {
+                childMap.set(parentIdx, [childIdx]);
+            }
+        }
+    }
 }
 
 const TreeItem: React.FC<TreeData> = (props) => {
@@ -162,14 +209,11 @@ const TreeItem: React.FC<TreeData> = (props) => {
 
     const handleIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
         itemKey && handleExpandedClicked && handleExpandedClicked(itemKey, e);
-        // setOpen(!open);
-        itemKey && handleItemExpand && handleItemExpand(itemKey, e);
+        itemKey && handleItemExpand && handleItemExpand(itemKey, currentIdx!, e);
     }
 
     const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // setIsChecked(e.target.checked);
-        itemKey && handleItemSelect && handleItemSelect(itemKey, e);
-        // itemKey && currentIdx && setTreeData && setTreeData(currentIdx, { checked: e.target.checked, key: itemKey });
+        itemKey && handleItemSelect && handleItemSelect(itemKey, currentIdx!, e);
     }
 
     return <CSSTransition in={show} timeout={300} appear unmountOnExit mountOnEnter>
@@ -191,6 +235,12 @@ const Tree: React.FC<TreeProps> = (props) => {
     const [flattenedData, setFlattenedData] = useState(flattenTreeData(data, 0, 0,
         defaultSelectedKeys,
         defaultOpenKeys))
+
+    useEffect(() => {
+        // 处理defaultIdx、openIdxs等场景
+        updateChildMap(flattenedData)
+    }, [])
+
     // 当前选中的所有keys
     const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
     // 当前选中keys的index
@@ -201,9 +251,8 @@ const Tree: React.FC<TreeProps> = (props) => {
             // console.log("展开的key:", expandedKey);
             onExpanded && onExpanded(expandedKey, e);
         },
-        handleItemSelect: (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-            const [keys, idxs] = findSelectedItems(key, flattenedData);
-            // console.log("所有关联的keys", keys);
+        handleItemSelect: (key: string, currentIdx: number, e: React.ChangeEvent<HTMLInputElement>) => {
+            const { keys, idxs } = findAffectedItems(key, currentIdx, flattenedData);
             const tmp = [...flattenedData];
             if (e.target.checked) {
                 const newKeys = [...selectedKeys, ...keys];
@@ -232,25 +281,25 @@ const Tree: React.FC<TreeProps> = (props) => {
                 setFlattenedData([...tmp]);
             }
         },
-        handleItemExpand: (key: string, e: React.MouseEvent<HTMLDivElement>) => {
-            // 点击的key
-            const idxOfKey = flattenedData.findIndex(data => data.key === key);
-            // @ts-ignore
-            const depth = flattenedData[idxOfKey].depth + 1;
+        handleItemExpand: (key: string, currentIdx: number, e: React.MouseEvent<HTMLDivElement>) => {
+            const depth = flattenedData[currentIdx].depth as number;
+            // 暂时只做展开下一层的
+            const show = !flattenedData[currentIdx].showChildren;
+            if (show) {
+                // 展开
+                const newFlattenedData = [...flattenedData];
+                newFlattenedData[currentIdx] = { ...newFlattenedData[currentIdx], showChildren: show }
 
-            const [_, idxs] = findSelectedItems(key, flattenedData, depth);
-            // 去掉自己的key，仅保留child
-
-
-            const affectedIdxs = (idxs as number[]).filter(i => i !== idxOfKey);
-            // 点击后取反
-            const show = !flattenedData[idxOfKey].showChildren;
-            const tmp = [...flattenedData];
-            tmp[idxOfKey] = { ...tmp[idxOfKey], showChildren: show }
-            for (let idx of affectedIdxs) {
-                tmp[idx] = {...tmp[idx], show};
+                for (let i = 0; i < flattenedData.length; i++) {
+                    const childParentIdx = flattenedData[i].parentIdx;
+                    if (childParentIdx === currentIdx) {
+                        newFlattenedData[i] = {...newFlattenedData[i], show}
+                    }
+                }
+                setFlattenedData([...newFlattenedData]);
+            } else {
+                // 关闭
             }
-            setFlattenedData([...tmp]);
         }
     }
     console.log(flattenedData);

@@ -82,7 +82,7 @@ BasicTree.args = {
     },
     defaultSelectedKeys: [
         '0-0-1-9',
-        "0-0"
+        "0-1"
     ]
 };
 BasicTree.storyName = "基本的树形控件";
