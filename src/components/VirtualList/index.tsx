@@ -20,7 +20,7 @@ const VirtualList: React.FC<VirtualListProps> = (props) => {
     const { containerHeight = 500, data, itemHeight = 50, renderItem } = props;
     const [startIdx, setStartIdx] = useState(0);
     // container的ref，用以判断滚动事件
-    const containerRef = useRef<HTMLDivElement>();
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // 撑起container的列表长度
     const listHeight = useMemo(() => {
