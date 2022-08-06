@@ -1,0 +1,80 @@
+.basic-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+
+  .modal-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1200;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 25px;
+
+
+    .close-icon {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      cursor: pointer;
+    }
+
+    .content {
+      .title {
+        font-size: 18px;
+        font-weight: bold;
+        border-bottom: 2px solid $gray-200;
+        padding-bottom: 20px;
+        color: rgba(0, 0, 0, 0.6);
+        text-align: center;
+      }
+
+      .description {
+        font-size: 16px;
+        color: rgba(0, 0, 0, 0.3);
+        margin-top: 10px;
+        text-align: center;
+      }
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .footer-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        color: rgba(0, 0, 0, 0.6);
+        cursor: pointer;
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+
+        &:hover {
+          color: white;
+        }
+      }
+
+      .footer-btn-delete {
+        background-color: orange;
+      }
+
+      .footer-btn-submit {
+        background-color: greenyellow;
+      }
+
+      .footer-btn-cancel {
+        background-color: red;
+      }
+    }
+  }
+}
