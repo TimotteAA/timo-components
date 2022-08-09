@@ -78,7 +78,7 @@ export interface ModalProps {
     /**
      * @description 渲染节点
      */
-    domEl: React.ReactNode;
+    // domEl: React.ReactNode;
 }
 
 // @ts-ignore
@@ -90,7 +90,7 @@ const Modal: React.FC<ModalProps> = (props) => {
         eleRef,
         isVisible,
         onClose,
-        domEl
+        // domEl
     } = props;
 
     // 默认的按钮设置
@@ -145,6 +145,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             </div>
         )
     }
-    return isVisible && ReactDOM.createPortal(renderChildren(), domEl);
+    // return isVisible && ReactDOM.createPortal(renderChildren(), domEl);
+    return <div>asda</div>
 }
 export default Modal;

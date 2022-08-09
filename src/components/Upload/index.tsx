@@ -19,7 +19,7 @@ import Progress, {ProgressProps} from "./Progress";
  * @description multiple：是否支持文件多选
  * @returns
  */
-interface UploadProps {
+export interface UploadProps {
   action: string; // 接口
   onProgress?: (percentage: number, file: File) => void;
   onSuccess?: (data: any, file: File) => void;
@@ -35,6 +35,7 @@ interface UploadProps {
   multiple?: boolean;
 }
 
+// 自定义upload的数据
 export interface UploadFile {
   uid: string;
   size: number;
@@ -75,7 +76,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     }
   };
   const uploadFiles = (files: FileList) => {
-    console.log(files);
+    // console.log(files);
     let postFiles = Array.from(files);
     postFiles.forEach((file) => {
       if (!beforeUpload) {
@@ -106,6 +107,7 @@ const Upload: React.FC<UploadProps> = (props) => {
     });
   };
 
+  // 处理单个文件的上传
   const post = (file: File) => {
     let _file: UploadFile = {
       uid: Date.now() + file.name + file.size,
@@ -116,6 +118,7 @@ const Upload: React.FC<UploadProps> = (props) => {
       raw: file,
     };
     // setFileList([_file, ...fileList]);
+    // 添加file到fileList中
     setFileList((prevList) => {
       return [_file, ...prevList];
     });
@@ -147,9 +150,11 @@ const Upload: React.FC<UploadProps> = (props) => {
         },
       })
       .then((res: any) => {
-        console.log(res);
+        // 文件上传成功
+        // console.log(res);
         onSuccess && onSuccess(res.data, file);
         onChange && onChange(file);
+        // 更新文件状态
         updateFileList(_file, {
           uid: _file.uid,
           status: 'success',
@@ -157,7 +162,6 @@ const Upload: React.FC<UploadProps> = (props) => {
         });
       })
       .catch((err: any) => {
-        console.log(err);
         onError && onError(err, file);
         onChange && onChange(file);
         updateFileList(_file, { uid: _file.uid, status: 'error', error: err });
