@@ -15,23 +15,23 @@ dayjs.extend(isoWeek);
 dayjs.extend(isToday);
 dayjs.extend(localeData);
 
-export interface onSelect {
+export interface WeekProps {
     /** 自定义类 */
     className?: string;
     /** 自定义样式 */
     styles?: React.CSSProperties;
     /** 选择某天后的回调 */
     onSelect?: (day: Dayjs) => void;
-    /** 是否显示年月日的panel */
+    /** 是否显示左右箭头的Icon */
     isShow?: boolean;
 }
 
-const Date: React.FC<onSelect> = (props) => {
+const Week: React.FC<WeekProps> = (props) => {
     const {
         className,
         styles,
         onSelect,
-        isShow
+        isShow = true
     } = props;
 
     // 当前选择日期
@@ -76,7 +76,7 @@ const Date: React.FC<onSelect> = (props) => {
     }
 
     return <div className={classes} style={styles}>
-        <Icon icon={"arrow-left"} className={"icon"} onClick={handleLeftIconClick}/>
+        { isShow && <Icon icon={"arrow-left"} className={"icon"} onClick={handleLeftIconClick}/>}
         {
             thisWeek.map((day) => {
                 const dayItemClasses = classNames("day-item", {
@@ -89,7 +89,7 @@ const Date: React.FC<onSelect> = (props) => {
                 </div>
             })
         }
-        <Icon icon={"arrow-right"} className={"icon"} onClick={handleRightIconClick}/>
+        {isShow && <Icon icon={"arrow-right"} className={"icon"} onClick={handleRightIconClick}/>}
         <div className={"date"}>
             {
                 `${activeDate.month() + 1}月${activeDate.date()}日 
@@ -100,4 +100,4 @@ const Date: React.FC<onSelect> = (props) => {
     </div>
 }
 
-export default Date;
+export default Week;

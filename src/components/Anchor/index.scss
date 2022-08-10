@@ -1,0 +1,37 @@
+.anchor-wrapper {
+  width: 300px;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 20px;
+  font-size: 1.167rem;
+  border: 1px solid black;
+
+  .anchor-header {
+    padding-bottom: 10px;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    border-bottom: 1px solid $gray-200;
+    margin-bottom: 20px;
+  }
+
+  .anchor-item {
+    border-left: 2px solid $gray-200;
+    padding: 15px 20px 15px 5px;
+    cursor: pointer;
+    color: $gray-500;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+      font-weight: 400;
+      color: black;
+    }
+    &.anchor-item-active {
+      border-left: 2px solid rgba(0, 0, 255, 0.4);
+      font-weight: 400;
+      color: black;
+    }
+  }
+}

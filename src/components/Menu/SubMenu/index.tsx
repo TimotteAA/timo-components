@@ -38,9 +38,10 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
       }
     });
     return (
-      <CSSTransition in={open} timeout={300} appear unmountOnExit>
+      // <CSSTransition in={open} timeout={300} appear unmountOnExit>
+      //   <ul className="submenu">{childrenElement}</ul>
+      // </CSSTransition>
         <ul className="submenu">{childrenElement}</ul>
-      </CSSTransition>
     );
   };
 

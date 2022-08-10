@@ -18,6 +18,6 @@ const Template: ComponentStory<typeof DatePicker> = (args) => <DatePicker {...ar
 
 export const DefaultDatePicker = Template.bind({});
 DefaultDatePicker.args = {
-  activeDate: dayjs().subtract(3, "month")
+  activeDate: dayjs()
 };
 DefaultDatePicker.storyName = "基本的DatePicker";

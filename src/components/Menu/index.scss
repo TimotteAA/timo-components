@@ -47,6 +47,14 @@
       display: block;
     }
 
+    //&:hover > .submenu {
+    //  display: block;
+    //}
+
+    //&:hover {
+    //
+    //}
+
     &.submenu-item-opened .submenu-title .menu-icon {
       transform: rotate(180deg);
     }
@@ -64,6 +72,10 @@
       list-style: none;
       z-index: 99;
       padding-inline-start: 0;
+
+      &:hover {
+        display: block;
+      }
     }
   }
 }

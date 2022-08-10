@@ -37,10 +37,37 @@
 
 
   .date-picker-item-date {
+    font-weight: 400;
     &:hover {
       color: white;
       background-color: rgba(0, 0, 255, 0.4);
       cursor: pointer;
     }
+
+    &.date-picker-item-active {
+      color: white;
+      background-color: rgba(0, 0, 255, 0.4);
+    }
+
+    &.date-picker-item-today {
+      color: black;
+      font-weight: 600;
+      background-color: $gray-400;
+    }
+
+    &.date-picker-item-today {
+      color: black;
+      font-weight: 600;
+      background-color: $gray-400;
+    }
+
+    &.date-picker-item-other-month {
+      font-weight: 200;
+      opacity: 0.8;
+    }
+  }
+
+  .opt {
+    cursor: pointer;
   }
 }

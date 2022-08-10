@@ -14,7 +14,13 @@
 @import "./components/Form/index.scss";
 @import "./components/Tree/index.scss";
 @import "./components/Modal/index.scss";
-@import "./components/Date/index.scss";
+@import "./components/Week/index.scss";
 @import "./components/DatePicker/index.scss";
+@import "./components/Anchor/index.scss";
 @import "./test-components/Simple/index.scss";
 @import "./components/VirtualList/index.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+}
