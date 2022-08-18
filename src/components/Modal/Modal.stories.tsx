@@ -13,7 +13,7 @@ export default modalMeta;
 const Template: ComponentStory<typeof Modal> = (args) => {
     const [isVisible, setIsVisible] = useState(false);
     const onClose = () => {
-        console.log("关掉了Modal");
+        setIsVisible(false);
     };
 
     const handleOpenClick = () => {
@@ -41,12 +41,10 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 
     return <div>
         <Button onClick={handleOpenClick} size={"small"}>显示modal</Button>
-
             <Modal description={"我自己封装的modal组件"} onClose={onClose}
                 config={{cancelBtn, submitBtn}}
                    isVisible={isVisible}
             />
-
     </div>
 
 };

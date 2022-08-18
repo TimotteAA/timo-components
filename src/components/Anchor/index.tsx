@@ -20,7 +20,7 @@ export interface AnchorProps {
     anchorData: AnchorData[];
     /** 原生样式 */
     styles?: React.CSSProperties;
-    /** 滚动的容器道浏览器页面坐标顶部的距离 */
+    /** 滚动的容器道浏览器页面坐标系顶部的距离 */
     offsetTop: number;
 }
 

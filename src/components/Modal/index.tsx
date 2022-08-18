@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Button from "../Button"
 import Icon from "../Icon";
-import ReactDOM from "react-dom";
-
-type Position = 'top' | 'bottom' | 'center';
+import Portal, { PortalRef } from "../Portal";
 
 export interface BtnConfig {
     /**
@@ -37,10 +35,6 @@ export interface ModalProps {
      * @description 描述
      */
     description?: React.ReactNode;
-    /**
-     * @description 弹窗位置
-     */
-    position?: Position;
     /**
      * @description 是否需要显示底部
      */
@@ -81,23 +75,22 @@ export interface ModalProps {
     // domEl: React.ReactNode;
 }
 
-// @ts-ignore
-const Modal: React.FC<ModalProps> = (props) => {
 
-    // const [isShowModal, setIsShowModal] = useState(true);
+const Modal: React.FC<ModalProps> = (props) => {
     const { title, width, className, description, showFooter = true, Footer,
         config = { cancelBtn: { isShow: false }, submitBtn: { isShow: true } },
         eleRef,
-        isVisible,
+        isVisible = true,
         onClose,
-        // domEl
     } = props;
+    const portalRef = useRef<PortalRef>();
 
     // 默认的按钮设置
     const { cancelBtn , submitBtn } = config;
     const handleModalClose = (e: React.MouseEvent<HTMLDivElement>) => {
         onClose && onClose(e);
     }
+
 
     const renderChildren = () => {
         return (
@@ -145,7 +138,11 @@ const Modal: React.FC<ModalProps> = (props) => {
             </div>
         )
     }
-    // return isVisible && ReactDOM.createPortal(renderChildren(), domEl);
-    return <div>asda</div>
+    // @ts-ignore
+    return <Portal domId={"timo-modal-wrapper"} isShow={isVisible} ref={portalRef}>
+        {
+            renderChildren()
+        }
+    </Portal>
 }
 export default Modal;

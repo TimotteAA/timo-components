@@ -1,83 +1,22 @@
-import Anchor from "./components/Anchor"
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import "./index.scss";
 import React from "react";
+import Carousel from "./components/Carousel";
 
 library.add(fas);
 function App() {
-    const styles: React.CSSProperties = {
-        // padding: "30px",
-        height: "600px",
-        width: "600px",
-        margin: "200px auto 0px auto"
-    }
-
-    const itemStyle: React.CSSProperties = {
-        fontSize: "20px",
-        height: "400px",
-        width: "200px",
-        border: "1px solid black",
-        textAlign: "center",
-        margin: "0 auto 30px 0",
-    }
-    const anchorData = [
-        {
-            label: 'CORS',
-            level: 1,
-            index: 0,
-        },
-        {
-            label: 'JSONP',
-            level: 1,
-            index: 1,
-        },
-        {
-            label: 'CSS',
-            level: 2,
-            index: 2,
-        },
-        {
-            label: 'JAVA',
-            level: 3,
-            index: 3,
-        },
-        {
-            label: 'JAVASCRIPT',
-            level: 2,
-            index: 4,
-        },
-        {
-            label: 'GOLANG',
-            level: 4,
-            index: 5,
-        },
+    const imgUrls = [
+        'https://img.zcool.cn/community/010c815e25a8c4a801216518dcc1d4.jpg@1280w_1l_2o_100sh.jpg',
+        'https://img.zcool.cn/community/0189905e25a8c6a80120a89533cc7f.jpg@1280w_1l_2o_100sh.jpg',
+        'https://img.zcool.cn/community/01747f5e25a8c9a801216518193452.jpg@1280w_1l_2o_100sh.jpg',
+        'https://img.zcool.cn/community/01cbba5e25a8cea80120a895743281.jpg@1280w_1l_2o_100sh.jpg',
+        'https://img.zcool.cn/community/0186025e25a8d3a80121651827af9c.jpg@1280w_1l_2o_100sh.jpg'
     ]
 
-    return (<div style={styles}>
-        <Anchor anchorData={anchorData} title={"测试Anchor目录"}
-                styles={{position: "fixed", right: "50px", top: "50px"}}
-                offsetTop={200}
-        />
-        <div style={{overflowY: "auto"}}>
-            <div id={"CORS"} style={itemStyle} className={"anchor-test-item"}>
-                CORS
-            </div>
-            <div id={"JSONP"} style={itemStyle} className={"anchor-test-item"}>
-                JSONP
-            </div>
-            <div id={"CSS"} style={itemStyle} className={"anchor-test-item"}>
-                CSS
-            </div>
-            <div id={"JAVA"} style={itemStyle} className={"anchor-test-item"}>
-                JAVA
-            </div>
-            <div id={"JAVASCRIPT"} style={itemStyle} className={"anchor-test-item"}>
-                JAVASCRIPT
-            </div>
-            <div id={"GOLANG"} style={itemStyle} className={"anchor-test-item"}>
-                GOLANG
-            </div>
+    return (<div>
+        <div style={{width: "500px"}}>
+            <Carousel imgUrls={imgUrls}/>
         </div>
     </div>)
 }

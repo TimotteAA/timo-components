@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useClickOutside } from "../../hooks/useClickOutside"
 
-interface DataSourceObject  {
+export interface DataSourceObject  {
     value: string;
     index?: number;
 }
@@ -19,7 +19,7 @@ interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
     /** 渲染单一搜索项的渲染方法 */
     renderOption?: (item: DataSourceType) => React.ReactElement;
     /** 自定义渲染loading */
-    renderLoading?: () => React.ReactElement;
+    renderLoading?: () => React.ReactNode;
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = (props) => {
