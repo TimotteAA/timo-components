@@ -1,0 +1,69 @@
+.timo-radio {
+  border: 1px solid black;
+  cursor: pointer;
+
+  .timo-radio-outer {
+    padding-right: 5px;
+    position: relative;
+    background: white;
+
+    .timo-radio-inner {
+      position: absolute;
+      top: 20px;
+      width: 16px;
+      height: 16px;
+      border: 1px solid black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+
+      &.timo-radio-inner-checked {
+        border-color: mediumpurple;
+        background: mediumpurple;
+        animation: animatedBorder 0.5s;
+      }
+
+      .timo-radio-checked-circle {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: white;
+        animation: dotAnimation 0.2s;
+      }
+    }
+  }
+}
+
+@keyframes dotAnimation {
+  0% {
+    transform: scale(0.3);
+  }
+
+  50% {
+    transform: scale(0.7);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animatedBorder {
+  0% {
+    box-shadow: 0 0 0 0 mediumpurple;
+  }
+  25% {
+    box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.75);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.5);
+  }
+  75% {
+    box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.25);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(147, 112, 219, 0)
+  }
+}

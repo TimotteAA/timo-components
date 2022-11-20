@@ -6,6 +6,7 @@ import { mapValues, each } from "lodash-es";
 export type CustomRuleFunc = ({ getFieldValue }: {getFieldValue: Function}) => RuleItem;
 export type CustomRule = RuleItem | CustomRuleFunc
 
+// 单一field的字段
 export interface Field {
     name: string;
     value: any;
